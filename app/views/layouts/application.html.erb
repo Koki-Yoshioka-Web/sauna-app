@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sauna-App</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Nabla&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Jersey+25&family=Noto+Serif+TC:wght@200..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Jersey+25&family=Noto+Serif+TC:wght@200..900&family=Zen+Maru+Gothic:wght@900&display=swap" rel="stylesheet">
+  <body>
+    
+    <header>
+      <div class="header-logo">
+       <%= link_to("Sauna-Go", "/") %> 
+      </div>
+      <ul class="header-menus">
+        <% current_user = User.find_by(id: session[:user_id]) %>
+        <% if current_user %>
+          <li>
+            <%=link_to(current_user.name,"/users/#{current_user.id}")%>
+          </li>
+        <li>
+          <%= link_to("募集一覧", "/posts/index") %>
+          </li>
+        <li>
+          <%=link_to("サウナ仲間を呼ぶ","/posts/new")%>
+        </li>
+          <li>
+          <%= link_to("サウナerのみんな", "/users/index") %>
+          <li>
+          <li>
+            <%= link_to("ログアウト", "/logout", {method: "post"}) %>
+          </li>
+          <%else%>
+          <li>
+          <%= link_to("ログイン", "/login") %>
+          <li>
+          <li>
+          <%= link_to("Saune-Goってなに？", "/about") %>
+          </li>
+          <li>
+          <%= link_to("あらたなサウナerになる", "/signup") %>
+          <li>
+            <%end%>
+      </ul>
+    </header>
+    <% if flash[:notice] %>
+      <div class="flash">
+        <%=flash[:notice] %>
+      </div>
+    <% end %>
+    
+    <%= yield %>
+    <%= javascript_include_tag 'application' %>
+  </body>
+</html>

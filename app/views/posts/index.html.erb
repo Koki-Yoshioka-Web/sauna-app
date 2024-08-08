@@ -1,0 +1,73 @@
+<div class="main posts-index">
+  <div class="container">
+    <% @posts.each do |post| %>
+      <div class="posts-index-item">
+        <div class="post-left">
+          <% if post.user %>
+            <img src="<%= "/uploads/#{post.user.image_name}" %>" alt="<%= post.user.name %>">
+          <% else %>
+            <p>ユーザーが存在しません</p>
+          <% end %>
+        </div>
+        <div class="post-right">
+          <div class="post-user-name">
+            <% if post.user %>
+              <%= link_to post.user.name, user_path(post.user) %>
+            <% else %>
+              <p>Unknown User</p>
+            <% end %>
+          </div>
+          <ul>
+            <% if post.survey.present? %>
+              <% post.survey.each do |question, answer| %>
+                <li><strong>
+                  <% case question %>
+                  <% when 'place' %>
+                    場所:
+                  <% when 'car' %>
+                    車:
+                  <% when 'time' %>
+                    時間:
+                  <% else %>
+                    <%= question %>:
+                  <% end %>
+                </strong> <%= answer %></li>
+              <% end %>
+            <% else %>
+              <p>アンケートがありません</p>
+            <% end %>
+          </ul>
+        </div>
+        <p class="timing">投稿日時: <%= post.created_at.strftime("%Y-%m-%d %H:%M:%S") %></p>
+        <div class="likes">
+          <% if user_signed_in? %>
+            <% if post.likes.exists?(user: current_user) %>
+              <%= button_to post_like_path(post, post.likes.find_by(user: current_user)), method: :delete, class: "like-button" do %>
+                <%= image_tag 'ooo8817-600x600.jpeg', alt: 'いいねを取り消す', class: 'like-icon' %>
+              <% end %>
+            <% else %>
+              <%= button_to post_likes_path(post), method: :post, class: "like-button" do %>
+                <%= image_tag 'ooo8817-600x600.jpeg', alt: 'いいね', class: 'like-icon' %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <p>いいねするにはログインが必要です。</p>
+          <% end %>
+          <span><%= post.likes.count %></span>
+        </div>
+        <div class="liked-users">
+          <p>参加希望:</p>
+          <ul class="liked-users-list">
+            <% post.likes.each do |like| %>
+              <% if like.user %>
+                <li>
+                  <%= link_to like.user.name, user_path(like.user) %>
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

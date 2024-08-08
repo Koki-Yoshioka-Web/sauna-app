@@ -1,0 +1,36 @@
+<div class="main posts-new">
+  <div class="container">
+    <h1 class="form-heading">&#9832;サウナ仲間を呼ぶ&#9832;</h1>
+    <%= form_with model: @post, url: posts_path, local: true do |form| %>
+      <div class="form">
+        <div class="form-body">
+          
+          <% @post.errors.full_messages.each do |message| %>
+            <div class="form-error">
+              <%= message %>
+            </div>
+          <% end %>
+
+          <div class="field">
+            <%= form.label :place, "店名" %>
+            <%= form.select :survey, { "どこでも" => "どこでも","極楽湯　枚方店" => "極楽湯　枚方店", "極楽湯　東大阪店" => "極楽湯　東大阪店", "愉快の湯　寝屋川店" => "愉快の湯　寝屋川店","水春　寝屋川店" => "水春　寝屋川店","水春　鶴見店" => "水春　鶴見店","その他" => "その他" }, {}, name: "post[survey][place]" %>
+          </div>
+
+          <div class="field">
+            <%= form.label :car, " 車" %>
+            <%= form.select :survey, { "出せます" => "出せます", "無理です" => "無理です", "ワンチャン" => "ワンチャン" }, {}, name: "post[survey][car]" %>
+          </div>
+
+          <div class="field">
+            <%= form.label :time, "時間" %>
+            <%= form.select :survey, { "20時〜" => "20時〜", "21時〜" => "21時〜", "22時〜" => "22時〜","バイト終わり次第" => "バイト終わり次第" }, {}, name: "post[survey][time]" %>
+          </div>
+
+          <div class="actions">
+            <%= form.submit "投稿" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
